@@ -1,0 +1,139 @@
+[
+    {
+        "name": "San Siro",
+        "place": "Milan",
+        "services": {
+            "metro": {
+                "name": "M5",
+                "travel": {
+                    "on_foot": "less than 5 minutes",
+                    "by_car": "5 minutes"
+                },
+                "distance": "8 km"
+            },
+            "bar": {
+                "name": "bar near the stadium",
+                "travel": {
+                    "on_foot": "10 minutes",
+                    "by_car": "3 minutes"
+                },
+                "distance": "0.2 km"
+            }
+        }
+    },
+    {
+        "name": "Olympic Stadium",
+        "place": "Rome",
+        "services": {
+            "metro": {
+                "name": "Orange Line Stop",
+                "travel": {
+                    "on_foot": "35 minutes",
+                    "by_car": "8 minutes"
+                },
+                "distance": "3 km"
+            },
+            "bar": {
+                "name": "Bar River",
+                "travel": {
+                    "on_foot": "10 minutes",
+                    "by_car": "5 minutes"
+                },
+                "distance": "0.8 km"
+            }
+        }
+    },
+    {
+        "name": "Opera Carlo Felice",
+        "place": "Genoa",
+        "services": {
+            "metro": {
+                "name": "De Ferrari",
+                "travel": {
+                    "on_foot": "1 minute"
+                },
+                "distance": "50 meters"
+            },
+            "parking": {
+                "name": "Largo delle Fucine",
+                "travel": {
+                    "on_foot": "1 minute"
+                },
+                "distance": "64 meters"
+            },
+            "osteria": {
+                "name": "Hosteria Ducale",
+                "travel": {
+                    "on_foot": "1 minute"
+                },
+                "distance": "120 meters"
+            }
+        }
+    },
+    {
+        "name": "Grana Padano Arena",
+        "place": "Mantova",
+        "services": {
+            "bus": {
+                "name": "Boccabusa",
+                "line": "6-12",
+                "travel": {
+                    "on_foot": "5 minutes",
+                    "by_car": "2 minutes"
+                },
+                "distance": "500 meters"
+            },
+            "festival": {
+                "name": "Mantovan Cuisine Festival",
+                "travel": {
+                    "on_foot": "3 minutes"
+                },
+                "distance": "300 meters"
+            }
+        }
+    },
+    {
+        "name": "Teatro Sis_Play at Brixia Forum",
+        "place": "Brescia",
+        "services": {
+            "bus": {
+                "name": "S203 - Fiera",
+                "travel": {
+                    "on_foot": "8 minutes",
+                    "by_car": "2 minutes"
+                },
+                "distance": "0.7 km"
+            },
+            "bar": {
+                "name": "Tower Pub",
+                "travel": {
+                    "on_foot": "5 minutes",
+                    "by_car": "3 minutes"
+                },
+                "distance": "0.9 km"
+            }
+        }
+    },
+    {
+        "name": "Teatro San Carlo",
+        "place": "Naples",
+        "services": {
+            "metro": {
+                "name": "Line 1",
+                "travel": {
+                    "on_foot": "5 minutes",
+                    "by_car": "2 minutes"
+                },
+                "distance": "0.4 km"
+            },
+            "bar": {
+                "name": "The Real Professor's Bar",
+                "travel": {
+                    "on_foot": "2 minutes",
+                    "by_car": "6 minutes"
+                },
+                "distance": "0.5 km"
+            }
+        }
+    }
+]
