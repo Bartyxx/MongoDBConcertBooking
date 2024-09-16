@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-
+       
 class Mongo:
    
     def __init__(self):
@@ -27,7 +27,7 @@ class Mongo:
 
         self.dates = {datum["date"][:11].rstrip() for datum in 
                       self.db_concerts.find(projection={"_id":0,"date":1})}
-        
+    
 
     def home(self):
         '''
@@ -79,10 +79,11 @@ class Mongo:
             "c": "city",
             "d": "concert name"
         }
-    
-        print("Find the concert you're interested in: filter by:")
+        print('*' * 90)
+        print("Find the concert you're interested in, filter by:")
         for k, v in filters.items():
             print(f"{k}: by {v}")
+        print('*' * 90)
     
         while True:
             choice = input("Choose how to filter\n")
@@ -106,10 +107,11 @@ class Mongo:
     
     def filter_options(self, options, type, callback):
         sorted_list = sorted(list(options))
+        print('*' * 90)
         print(f"Choose one of the available {type}s:")
         for i, option in enumerate(sorted_list, 1):
             print(f"{i}: {option}")
-        
+        print('*' * 90)
         while True:
             try:
                 choice = int(input(f"Enter an integer number between 1 and {len(sorted_list)} to choose the {type}\n"))
@@ -141,13 +143,13 @@ class Mongo:
     
         # Check if the tax code already exists
         if self.db_users.find_one({"tax_code": tax_code}):
-            print('The entered tax code already exists.')
+            print('The entered tax code already exists.\n')
         else:
             try:
                 self.db_users.insert_one(registration)
-                print('User successfully added.')
+                print('User successfully added.\n')
             except Exception as e:
-                print(f"Error during user insertion: {e}")
+                print(f"Error during user insertion: {e}\n")
 
 
     def filter_by_artist(self, artist_name):
@@ -157,44 +159,6 @@ class Mongo:
         Parameters:
         - artist_name (str): The name of the artist for whom to filter the concerts.
         '''
-        while True:
-            try:
-                # Find concerts for the artist
-                concerts_data = list(self.db_concerts.find(
-                    filter={"singer_name": artist_name},
-                    projection={"_id": 0, "concert_name": 1, "date": 1}
-                ))
-        
-                # Retrieve ticket details for each concert
-                venue_data = []
-                for concert in concerts_data:
-                    tickets = self.db_tickets.find_one(
-                        {"concert_name": concert["concert_name"]},  # Filtro come primo argomento
-                        {"_id": 0, "ticket_count": 1, "location": 1}  # Proiezione come secondo argomento
-                    )
-
-                    # Controlla se `tickets` è None
-
-                    if tickets:
-                        venue_data.append(tickets)
-                    else:
-                        venue_data.append({"ticket_count": "N/A", "location": {"city": "N/A", "stadium": "N/A"}})
-
-        
-                # Display the found concerts
-                print(f"Found concerts: {len(concerts_data)}")
-                for n, concert in enumerate(concerts_data):
-                    ticket = venue_data[n]
-                    print(f"{n + 1}: {concert['concert_name']}, {concert['date']}, "
-                          f"Available tickets: {ticket['ticket_count']}, "
-                          f"City: {ticket['location']['city']}, Venue: {ticket['location']['stadium']}")
-    
-                break
-        
-            except Exception as e:
-                print(f"An error occurred: {e}")
-                break
-
 
         while True:
             try:
@@ -204,7 +168,6 @@ class Mongo:
                     filter={"singer_name": artist_name},
                     projection={"_id": 0, "concert_name": 1, "date": 1}
                 ))
-                print(concerts_data)
     
                 # Retrieve ticket details for each concert
                 venue_data = []
@@ -218,21 +181,21 @@ class Mongo:
     
                 # Display the found concerts
                 print(f"Found concerts: {len(concerts_data)}")
+                print('*' * 90)
                 for n, concert in enumerate(concerts_data):
                     ticket = venue_data[n]
-                    print(tickets)
                     print(f"{n + 1}: {concert['concert_name']}, {concert['date']}, "
                           f"Available tickets: {ticket['ticket_count']}, "
                           f"City: {ticket['location']['city']}, Venue: {ticket['location']['stadium']}")
 
-                print('*' * 50)
+                print('*' * 90)
     
                 # Select the concert
                 choice = int(input(f"Choose one of the {len(concerts_data)} available concerts: \n"))
                 if choice <= 0 or choice > len(concerts_data):
                     print("Invalid number, try again.")
                     continue
-    
+
                 selected_concert = concerts_data[choice - 1]
                 selected_ticket = venue_data[choice - 1]
     
@@ -248,14 +211,11 @@ class Mongo:
                 )
                 sectors = sectors_data["sectors"]
     
-    
+                print('*' * 90)
                 for i, sector in enumerate(sectors.keys(), 1):
                     print(f"{i}: {sector} -> Available: {sectors[sector]['available']}, Price: {sectors[sector]['price']}")
+                print('*' * 90)
 
-                '''
-                for i, sector in enumerate(sectors.keys(), 1):
-                    print(f"{i}: {sectors} -> Available: {sectors[sectors]['available']}, Price: {sectors[sectors]['price']}")
-                '''
                 # Select the sector
                 ticket_choice = int(input("Choose which sector you want to buy the ticket for (1-4): \n"))
                 if ticket_choice not in range(1, 5):
@@ -288,19 +248,7 @@ class Mongo:
                     city = selected_ticket['location']['city']
                     service = self.db_services.find_one({"place": city})
     
-                    if service:
-                        print('-' * 50)
-                        print(f"Services:\nName: {service['name']}\nCity: {service['place']}\n"
-                              f"Public transport: {service['services']['metro']['name']}\n"
-                              f"Walking distance: {service['services']['metro']['travel']['on_foot']}\n"
-                              f"Driving distance: {service['services']['metro']['travel']['by_car']}\n"
-                              f"Bar Name: {service['services']['bar']['name']}\nDistance: {service['services']['bar']['distance']}\n"
-                              f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
-                              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
-                        print('-' * 50)
-                    else:
-                        print('No services found for this city.')
-    
+                    display_service_info(service)
                     break
     
             except (IndexError, ValueError) as e:
@@ -329,11 +277,11 @@ class Mongo:
                 # Display the found concerts
                 for i, concert in enumerate(concerts_data):
                     print(f'Option {i + 1}')
-                    print('*' * 50)
+                    print('*' * 90)
                     print(f"Concert: {concert['concert_name']} \nDate and Time: {concert['date']} \n"
                           f"Available tickets: {concert['ticket_count']}\nCity: {concert['location']['city']}\n"
                           f"Venue: {concert['location']['stadium']}")
-                    print('*' * 50)
+                    print('*' * 90)
     
                 # Select the concert
                 option = int(input(f'Choose one of the {len(concerts_data)} options: \n'))
@@ -354,9 +302,10 @@ class Mongo:
                 )["sectors"]
     
                 print("Available sectors:")
+                print('*' * 90)
                 for i, (sector, details) in enumerate(sectors.items(), 1):
                     print(f"{i}: {sector} -> Available: {details['available']}, Price: {details['price']}")
-    
+                print('*' * 90)
                 # Select the sector
                 ticket_choice = int(input("Choose which sector you want to buy the ticket for (1-4): \n"))
                 if ticket_choice not in range(1, 5):
@@ -387,19 +336,7 @@ class Mongo:
     
                     # Show available services in the city
                     service = self.db_services.find_one({"place": city_name})
-                    if service:
-                        print('-' * 50)
-                        print(f"Services:\nName: {service['name']}\nCity: {service['place']}\n"
-                              f"Public transport: {service['services']['metro']['name']}\n"
-                              f"Walking distance: {service['services']['metro']['travel']['on_foot']}\n"
-                              f"Driving distance: {service['services']['metro']['travel']['by_car']}\n"
-                              f"Bar Name: {service['services']['bar']['name']}\nDistance: {service['services']['bar']['distance']}\n"
-                              f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
-                              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
-                        print('-' * 50)
-                    else:
-                        print('No services found for this city.')
-    
+                    display_service_info(service)
                     break
     
             except (IndexError, ValueError) as e:
@@ -430,20 +367,21 @@ class Mongo:
                     break
     
                 # Show concert details
-                print('*' * 50)
+                print('*' * 90)
                 print(f"Concert: {concert['concert_name']} \nDate and Time: {concert['date']} \n"
                       f"Available tickets: {concert['ticket_count']}\nCity: {concert['location']['city']}\n"
                       f"Venue: {concert['location']['stadium']}")
-                print('*' * 50)
+                print('*' * 90)
                 print("These are the available tickets for each sector")
     
                 # Retrieve sector details
                 sectors = concert['sectors']
     
                 # Show available sectors
+                print('*' * 90)
                 for i, (sector, details) in enumerate(sectors.items(), 1):
                     print(f"{i}: {sector} -> Available: {details['available']}, Price: {details['price']}")
-    
+                print('*' * 90)
                 # Select the sector
                 ticket_choice = int(input("Choose which sector you want to buy the ticket for (1-4): \n"))
                 if ticket_choice not in range(1, 5):
@@ -478,19 +416,7 @@ class Mongo:
                     city = concert['location']['city']
                     service = self.db_services.find_one({"place": city})
     
-                    if service:
-                        print('-' * 50)
-                        print(f"Services:\nName: {service['name']}\nCity: {service['place']}\n"
-                              f"Public transport: {service['services']['metro']['name']}\n"
-                              f"Walking distance: {service['services']['metro']['travel']['on_foot']}\n"
-                              f"Driving distance: {service['services']['metro']['travel']['by_car']}\n"
-                              f"Bar Name: {service['services']['bar']['name']}\nDistance: {service['services']['bar']['distance']}\n"
-                              f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
-                              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
-                        print('-' * 50)
-                    else:
-                        print('No services found for this city.')
-    
+                    display_service_info(service)
                     break
     
             except ValueError:
@@ -517,20 +443,21 @@ class Mongo:
                     break
     
                 # Show concert details
-                print('*' * 50)
+                print('*' * 90)
                 print(f"Concert: {concert['concert_name']} \nDate and Time: {concert['date']} \n"
                       f"Available tickets: {concert['ticket_count']}\nCity: {concert['location']['city']}\n"
                       f"Venue: {concert['location']['stadium']}")
-                print('*' * 50)
+                print('*' * 90)
                 print("These are the available tickets for each sector")
     
                 # Retrieve sector details
                 sectors = concert['sectors']
     
                 # Show available sectors
+                print('*' * 90)
                 for i, (sector, details) in enumerate(sectors.items(), 1):
                     print(f"{i}: {sector} -> Available: {details['available']}, Price: {details['price']}")
-    
+                print('*' * 90)
                 # Select the sector
                 try:
                     ticket_choice = int(input("Choose which sector you want to buy the ticket for (1-4): \n"))
@@ -575,19 +502,7 @@ class Mongo:
                     city = concert['location']['city']
                     service = self.db_services.find_one({"place": city})
     
-                    if service:
-                        print('-' * 50)
-                        print(f"Services:\nName: {service['name']}\nCity: {service['place']}\n"
-                              f"Public transport: {service['services']['metro']['name']}\n"
-                              f"Walking distance: {service['services']['metro']['travel']['on_foot']}\n"
-                              f"Driving distance: {service['services']['metro']['travel']['by_car']}\n"
-                              f"Bar Name: {service['services']['bar']['name']}\nDistance: {service['services']['bar']['distance']}\n"
-                              f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
-                              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
-                        print('-' * 50)
-                    else:
-                        print('No services found for this city.')
-    
+                    display_service_info(service)
                     break
     
             except IndexError:
@@ -595,8 +510,33 @@ class Mongo:
             except Exception as e:
                 print(f'Unexpected error: {e}')
 
-                
+
+def display_service_info(service):
+    if service:
+        print('*' * 90)
+        print(f"Services:\n"
+              f"Name: {service['name']}\n"
+              f"City: {service['place']}\n"
+              f"Public transport: {service['services']['metro']['name']}\n"
+              f"Walking distance: {service['services']['metro']['travel']['on_foot']}\n"
+              f"Driving distance: {service['services']['metro']['travel']['by_car']}\n"
+              f"Bar Name: {service['services']['bar']['name']}\n"
+              f"Distance: {service['services']['bar']['distance']}\n"
+              f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
+              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
+        print('*' * 90)
+    else:
+        print('No services found for this city.')
                 
 if __name__ == '__main__':
+    print("-" * 90)
+    print("Welcome to the concert booking application in MongoDB!\n"
+          "You can register with name, surname, tax code, and gender to access "
+          "the application and buy tickets for concerts."
+          "It's possible to filter the concerts in a variety of ways to "
+          "improve the selection.\n"
+          "Thank you and have fun!")
+    print("-" * 90)
+
     a = Mongo()
     a.home()
