@@ -4,8 +4,6 @@ from pymongo import MongoClient
 class Mongo:
    
     def __init__(self):
-        #self.client = MongoClient('mongodb+srv://TheMongoProject:AlfaBetaGamma@cluster0.xbnt0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-
         try:
             self.client = MongoClient('mongodb+srv://TheMongoProject:AlfaBetaGamma@cluster0.xbnt0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
         except Exception as e:
@@ -29,6 +27,8 @@ class Mongo:
 
         self.dates = {datum["date"][:11].rstrip() for datum in 
                       self.db_concerts.find(projection={"_id":0,"date":1})}
+        
+
     def home(self):
         '''
         Users Log In
@@ -43,23 +43,34 @@ class Mongo:
         code cannot be used in two different subscriptions.
         '''
         while True:
-            try:
                 self.first_name = input('Enter your first name -> ').title()
+                if any(char.isdigit() for char in self.first_name):
+                    print("Insert a valid name. Names cannot contain numbers.")
+                else:
+                    break
+        print(50*"-")
+        while True:
                 self.last_name = input('Enter your last name -> ').title()
+                if any(char.isdigit() for char in self.last_name):
+                    print("Insert a valid name. Surname cannot contain numbers.")
+                else:
+                    break
+        print(50*"-")
+        while True:
                 self.tax_code = input('Enter your tax code-> ').upper()
-    
                 if len(self.tax_code) != 16:
-                    raise ValueError('The tax code must be 16 characters long.')
-    
+                    print('The tax code must be 16 characters long.')
+                else:
+                    break
+        print(50*"-")
+        while True:
                 self.gender = input('Enter "m", "f", or "other": -> ').upper()
                 if self.gender not in ["M", "F", "OTHER"]:
-                    raise ValueError('Invalid gender, choose between "M", "F", or "OTHER".')
-                
-                break  # Exit the loop if all fields are valid
-                
-            except ValueError as err:
-                print(f"Error: {err}")
-    
+                    print('Invalid gender, choose between "M", "F", or "OTHER".')
+                else:
+                    break
+        print(50*"-")
+        
         self.insert_user(self.first_name, self.last_name, self.tax_code, self.gender)
     
         filters = {
