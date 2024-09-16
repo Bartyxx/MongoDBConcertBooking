@@ -1,9 +1,16 @@
 from pymongo import MongoClient
 
-       
 class Mongo:
    
     def __init__(self):
+        '''
+        Connect to MongoDB server, initialize the 4 documents and extract:
+            - concert_names from concerts
+            - singers       from concerts
+            - cities        from concerts
+            - dates         from concerts
+
+        '''
         try:
             self.client = MongoClient('mongodb+srv://TheMongoProject:AlfaBetaGamma@cluster0.xbnt0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
         except Exception as e:
@@ -28,7 +35,6 @@ class Mongo:
         self.dates = {datum["date"][:11].rstrip() for datum in 
                       self.db_concerts.find(projection={"_id":0,"date":1})}
     
-
     def home(self):
         '''
         Users Log In
@@ -104,7 +110,6 @@ class Mongo:
         elif choice == "d":
             self.filter_options(self.concert_names, "concert", self.filter_by_concert_name)
 
-    
     def filter_options(self, options, type, callback):
         sorted_list = sorted(list(options))
         print('*' * 90)
@@ -122,7 +127,6 @@ class Mongo:
                     print(f"Invalid number, choose a {type} between 1 and {len(sorted_list)}.")
             except ValueError:
                 print('Enter an integer number.')
-
 
     def insert_user(self, first_name, last_name, tax_code, gender):
         '''
@@ -150,7 +154,6 @@ class Mongo:
                 print('User successfully added.\n')
             except Exception as e:
                 print(f"Error during user insertion: {e}\n")
-
 
     def filter_by_artist(self, artist_name):
         '''
@@ -254,7 +257,6 @@ class Mongo:
             except (IndexError, ValueError) as e:
                 print(f"Error: {e}. Enter a correct value.")
 
-
     def filter_by_city(self, city_name):
         '''
         Filters and displays concerts for a specific city.
@@ -342,7 +344,6 @@ class Mongo:
             except (IndexError, ValueError) as e:
                 print(f"Error: {e}. Enter a correct value.")
 
-
     def filter_by_concert_name(self, concert_name):
         '''
         Filters and displays concert details based on the concert name.
@@ -421,7 +422,6 @@ class Mongo:
     
             except ValueError:
                 print('Error: Enter an integer value.')
-
 
     def filter_by_date(self, date):
         '''
@@ -509,7 +509,6 @@ class Mongo:
                 print('Error: Check the entered data and try again.')
             except Exception as e:
                 print(f'Unexpected error: {e}')
-
 
 def display_service_info(service):
     if service:
