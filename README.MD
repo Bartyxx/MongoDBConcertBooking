@@ -3,7 +3,7 @@
 <!-- ---------------------------------------------------------------------- -->
 
 Welcome to the Python application for booking concerts!<br/>
-The concert information is stored in a MongoDB database composed of 4 collections:<br/>
+The concert informations are stored in a MongoDB database composed of 4 collections:<br/>
 
 <ul>
 <li>concert  </li>
@@ -13,7 +13,7 @@ The concert information is stored in a MongoDB database composed of 4 collection
 </ul>
 
 Python interacts with MongoDB through queries that return the data requested 
-by users or modify the data in the database
+by users or modify the data in the database.
 
 <br/>
 <h2>Python</h2>
@@ -68,14 +68,20 @@ returns the results chosen by the users.<br/>
 Each database is initialized with a variable, and these variables are used to 
 interact with the collections in the program.<br/>
 
-self.db_users = self.client.exam.users<br/>
-self.db_tickets = self.client.exam.tickets<br/>
-self.db_concerts = self.client.exam.concerts<br/>
-self.db_services = self.client.exam.services<br/>
+</pre>
+self.db_users = self.client.exam.users
+self.db_tickets = self.client.exam.tickets
+self.db_concerts = self.client.exam.concerts
+self.db_services = self.client.exam.services
+</pre>
 
 An example of interaction is:<br/>
+
+<pre>
 self.concert_names = {concert.get("concert_name") for concert in 
                       self.db_concerts.find(projection={"_id": 0, "concert_name": 1}) if concert.get("concert_name")}
+</pre>
+
 The query interacts with each document in the collection and returns the 
 concert_name. The result is stored in a variable.
 
@@ -83,7 +89,7 @@ concert_name. The result is stored in a variable.
 <h2>MongoDB</h2>
 <br/>
 
-The four collections in the MongoDB database are:
+Example of one documento for every collection in the MongoDB database:
 <ul>
 <li>concert  </li>
 <p><img src = "https://github.com/Bartyxx/MongoDBConcertBooking/blob/main/img/concertDB.png"/></p>
