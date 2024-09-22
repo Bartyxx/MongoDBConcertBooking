@@ -89,7 +89,7 @@ concert_name. The result is stored in a variable.
 <h2>MongoDB</h2>
 <br/>
 
-Example of one documento for every collection in the MongoDB database:
+Example of one document for every collection in the MongoDB database:
 <ul>
 <li>concert  </li>
 <p><img src = "https://github.com/Bartyxx/MongoDBConcertBooking/blob/main/img/concertDB.png"/></p>
