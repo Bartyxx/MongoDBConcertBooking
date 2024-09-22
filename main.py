@@ -522,7 +522,7 @@ def display_service_info(service):
               f"Bar Name: {service['services']['bar']['name']}\n"
               f"Distance: {service['services']['bar']['distance']}\n"
               f"Walking distance to Bar: {service['services']['bar']['travel']['on_foot']}\n"
-              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}\n")
+              f"Driving distance to Bar: {service['services']['bar']['travel']['by_car']}")
         print('*' * 90)
     else:
         print('No services found for this city.')
