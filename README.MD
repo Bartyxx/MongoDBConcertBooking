@@ -16,9 +16,7 @@ Python interact with MongoDB with query that returd the data askd by the users
 or modify the data in the database.
 
 <br/>
--------------------------------------------------------------------------------
 <h2>Python</h2>
--------------------------------------------------------------------------------
 <br/>
 
 The users must register in the application to buy tickets, after insert name,
@@ -48,9 +46,7 @@ In the end a list of services near the concert location is shown.<br/>
 <p><img src = "https://github.com/Bartyxx/MongoDBConcertBooking/blob/main/img/services.png"/></p>
 
 <br/>
--------------------------------------------------------------------------------
 <h2>Function</h2>
--------------------------------------------------------------------------------
 <br/>
 
 Every filter is assosicated at a function that interact with the MongoDB and
@@ -64,9 +60,7 @@ return the result choosen by the users<br/>
 </ul>
 
 <br/>
--------------------------------------------------------------------------------
 <h2>Query</h2>
--------------------------------------------------------------------------------
 <br/>
 
 Every database is initialize with a variable, those variable are used to
@@ -84,9 +78,7 @@ The query interact with every line of the collection and return the concert_name
 the result is saved in a variable.
 
 <br/>
--------------------------------------------------------------------------------
 <h2>MongoDB</h2>
--------------------------------------------------------------------------------
 <br/>
 
 The four collection of the MongoDB database are:
