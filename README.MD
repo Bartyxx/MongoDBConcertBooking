@@ -86,7 +86,7 @@ The query interacts with each document in the collection and returns the
 concert_name. The result is stored in a variable.
 
 <br/>
-<h2>MongoDB</h2>
+<h2>MongoDB Database</h2>
 <br/>
 
 Example of one document for every collection in the MongoDB database:
