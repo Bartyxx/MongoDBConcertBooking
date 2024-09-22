@@ -68,7 +68,7 @@ returns the results chosen by the users.<br/>
 Each database is initialized with a variable, and these variables are used to 
 interact with the collections in the program.<br/>
 
-</pre>
+<pre>
 self.db_users = self.client.exam.users
 self.db_tickets = self.client.exam.tickets
 self.db_concerts = self.client.exam.concerts
