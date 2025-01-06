@@ -1,3 +1,16 @@
+"""
+-------------------------------------------------------------------------------
+                                    main.py
+-------------------------------------------------------------------------------
+Manage the booking of a concert.
+The database used is MongoDB and is composed by 4 collections:
+
+- concert
+- tickets
+- services
+- users
+"""
+
 from pymongo import MongoClient
 
 class Mongo:
