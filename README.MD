@@ -1,11 +1,15 @@
 <!-- ---------------------------------------------------------------------- -->
-<h1>MongoDBConcertBooking</h1>
+<h1 align="center">MongoDBConcertBooking</h1>
 <!-- ---------------------------------------------------------------------- -->
 
-<p>
+<p align="center" dir="auto">
     Welcome to the Python application for booking concerts!<br />
     The concert information is stored in a MongoDB database composed of 4 collections:<br />
 </p>
+
+<div align="center">
+    <img src = "https://github.com/Bartyxx/MongoDBConcertBooking/blob/main/img/logo.jpg"/>
+</div>
 
 <ul>
     <li>concert</li>
